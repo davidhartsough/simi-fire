@@ -223,6 +223,29 @@ export async function getDocsByIds(
   return data;
 }
 
+export type Docs = DocumentDataWithId[] | any[];
+
+export async function addDocs(
+  collectionName: string,
+  inputs: any[]
+): Promise<Docs> {
+  const data: DocumentDataWithId[] = [];
+  const batch = batchWrite();
+  inputs.forEach((input) => {
+    const newDoc = {
+      ...input,
+      id: generateId(collectionName),
+    };
+    batch.set(
+      docRef(collectionName, newDoc.id),
+      (({ id, ...rest }) => rest)(newDoc)
+    );
+    data.push(newDoc);
+  });
+  await batch.commit();
+  return data;
+}
+
 export async function setDocs(
   collectionName: string,
   docs: DocumentDataWithId[] | any[]
