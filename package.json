@@ -1,0 +1,63 @@
+{
+  "name": "simi-fire",
+  "version": "0.1.0",
+  "description": "Simple Minimal Firebase Firestore",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "type": "module",
+  "source": "src/index",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "module": "dist/index.js",
+  "scripts": {
+    "prebuild": "rm -r dist/*",
+    "build": "tsc",
+    "rebuild": "tsc",
+    "dry:build": "tsc --noEmit",
+    "size": "size-limit",
+    "test": "echo \"No tests 🤷\"",
+    "release": "np"
+  },
+  "sideEffects": false,
+  "keywords": [
+    "simple",
+    "minimal",
+    "simplistic",
+    "minimalistic",
+    "firebase",
+    "firestore"
+  ],
+  "size-limit": [
+    {
+      "path": "dist/index.js"
+    }
+  ],
+  "author": "davidhartsough <hartsoughdavid@gmail.com> (https://github.com/davidhartsough)",
+  "license": "ISC",
+  "repository": "https://github.com/davidhartsough/simi-fire",
+  "bugs": {
+    "url": "https://github.com/davidhartsough/simi-fire/issues"
+  },
+  "homepage": "https://github.com/davidhartsough/simi-fire#readme",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "dependencies": {
+    "firebase": "^9.8.2"
+  },
+  "devDependencies": {
+    "@size-limit/preset-small-lib": "^8.0.1",
+    "@typescript-eslint/eslint-plugin": "^5.36.1",
+    "@typescript-eslint/parser": "^5.36.1",
+    "eslint": "^8.23.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "prettier": "^2.7.1",
+    "size-limit": "^8.0.1",
+    "typescript": "^4.8.2",
+    "np": "*"
+  }
+}
