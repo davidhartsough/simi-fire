@@ -1,7 +1,9 @@
 # SiMi Fire
 
-> Simple Minimalistic Firebase Firestore
-
-(Simple/Simplistic Minimal/Minimalistic Firebase/Firestore)
+> Simple/Simplistic Minimal/Minimalistic Firebase/Firestore
 
 👌🔥
+
+Enjoy some hot and fresh simplifications to Firebase Auth and the Firestore DB.
+
+Make sure you always run `initDatabase` first before calling anything else.
