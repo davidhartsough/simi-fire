@@ -140,24 +140,25 @@ export function watchChanges(
 export interface DocumentDataWithId extends DocumentData {
   id: string;
 }
+export type NonNullDocChangeHandler = (data: DocumentDataWithId) => void;
+export type DocChangeHandler = (doc: DocumentDataWithId | null) => void;
 
 export function handleCollectionChanges(
   collectionName: string,
   queryConstraint: QueryConstraint,
-  add: (data: DocumentDataWithId) => void,
-  modify: (data: DocumentDataWithId) => void,
+  add: NonNullDocChangeHandler,
+  modify: NonNullDocChangeHandler,
   remove: (id: string) => void
 ) {
   watchChanges(collectionName, queryConstraint, ({ type, doc }) => {
     const { fromCache, hasPendingWrites } = doc.metadata;
     if (fromCache || hasPendingWrites) return;
-    const data = {
-      id: doc.id,
-      ...doc.data(),
-    };
-    if (type === "added") add(data);
-    if (type === "modified") modify(data);
-    if (type === "removed") remove(data.id);
+    if (type === "removed") remove(doc.id);
+    if (doc.exists()) {
+      const data = { id: doc.id, ...doc.data() };
+      if (type === "added") add(data);
+      if (type === "modified") modify(data);
+    }
   });
 }
 
@@ -191,7 +192,7 @@ export function watchDocChanges(
 export function handleDocChanges(
   collectionName: string,
   id: string,
-  handler: (doc: DocumentDataWithId | null) => void
+  handler: DocChangeHandler
 ) {
   watchDocChanges(collectionName, id, (docData) => {
     if (!docData) return handler(null);
@@ -224,7 +225,7 @@ export async function getDocsByIds(
 
 export async function setDocs(
   collectionName: string,
-  docs: DocumentDataWithId[]
+  docs: DocumentDataWithId[] | any[]
 ): Promise<boolean> {
   const batch = batchWrite();
   docs.forEach((doc) => {
